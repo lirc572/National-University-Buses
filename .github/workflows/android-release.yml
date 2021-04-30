@@ -35,7 +35,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Create .env
         run: |
-          echo "TOKEN_ENCODED=$TOKEN_ENCODED" > .env
+          echo "TOKEN_ENCODED=$TOKEN_ENCODED" > dotenv
         shell: bash
         env:
           TOKEN_ENCODED: ${{ secrets.TOKEN_ENCODED }}
