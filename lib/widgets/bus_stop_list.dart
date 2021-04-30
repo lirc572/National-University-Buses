@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './expansion_list.dart';
 import '../util/api.dart';
 
 class BusStopList extends StatefulWidget {
@@ -7,84 +8,53 @@ class BusStopList extends StatefulWidget {
 }
 
 class _BusStopListState extends State<BusStopList> {
-  final _biggerFont = TextStyle(fontSize: 18.0);
   List _busStops = [];
-  List<String> get _busStopNames {
-    return _busStops.map((busStop) => busStop['caption'].toString()).toList();
-  }
 
   void _updateBusStops(List newBusStops) {
     _busStops = newBusStops;
   }
 
-  Widget _buildRow(String busStopName) {
-    return ListTile(
-      title: Text(
-        busStopName,
-        style: _biggerFont,
-      ),
-    );
-  }
-
-  Widget _buildList() {
-    final lengthOfList =
-        _busStopNames.length > 0 ? _busStopNames.length * 2 - 1 : 0;
-    return ListView.builder(
-      padding: EdgeInsets.all(16.0),
-      itemCount: lengthOfList,
-      itemBuilder: (context, i) {
-        if (i.isOdd) return Divider();
-        final index = i ~/ 2;
-        return _buildRow(_busStopNames[index]);
-      },
-    );
+  String _formatArrivalTimes(String time1, String time2) {
+    if (time1.length > 2) {
+      time1 = ' -';
+    } else {
+      time1 = time1.length == 1 ? ' ' + time1 : time1;
+    }
+    if (time1 != ' -') {
+      time1 = time1 + 'min';
+    }
+    if (time1.length > 2) {
+      time1 = ' -';
+    } else {
+      time1 = time1.length == 1 ? ' ' + time1 : time1;
+    }
+    if (time2 != ' -') {
+      time2 = time2 + 'min';
+    }
+    return time1 + ', ' + time2;
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: fetchBusStops(),
-      builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
-        Widget widget = Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                child: CircularProgressIndicator(),
-                height: 60.0,
-                width: 60.0,
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 16),
-                child: Text('Fetching bus stop list...'),
-              ),
-            ],
-          ),
-        );
-        if (snapshot.hasData) {
-          _updateBusStops(snapshot.data);
-          widget = _buildList();
-        } else if (snapshot.hasError) {
-          widget = Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.error_outline,
-                  color: Colors.red,
-                  size: 60,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 16),
-                  child: Text('Please check your internet connection'),
-                ),
-              ],
-            ),
-          );
-        }
-        return widget;
+    return ExpansionList(
+      buildTitles: () async {
+        var busStops = await fetchBusStops();
+        _updateBusStops(busStops);
+        return busStops
+            .map((busStop) => new Text(busStop['caption'].toString()))
+            .toList();
+      },
+      buildSubList: (i) async {
+        var busServices = await fetchBusServices(_busStops[i]['name']);
+        return busServices
+            .map((busRoute) => new ListTile(
+                  title: Text(busRoute['name'].toString()),
+                  leading: new Icon(Icons.directions_bus_rounded),
+                  trailing: new Text(_formatArrivalTimes(
+                      busRoute['arrivalTime'].toString(),
+                      busRoute['nextArrivalTime'].toString())),
+                ))
+            .toList();
       },
     );
   }
