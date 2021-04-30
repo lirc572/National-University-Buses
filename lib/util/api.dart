@@ -23,3 +23,21 @@ Future<List> fetchBusStops() async {
     return [];
   }
 }
+
+Future<List> fetchBusServices(String busStopName) async {
+  var uri = Uri.https(
+    _baseUrl,
+    'ShuttleService',
+    {
+      'busstopname': busStopName,
+    },
+  );
+  try {
+    var response = await http.get(uri, headers: _headers);
+    var busStops =
+        jsonDecode(response.body)['ShuttleServiceResult']['shuttles'];
+    return busStops;
+  } on SocketException catch (_) {
+    return [];
+  }
+}
