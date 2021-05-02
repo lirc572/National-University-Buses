@@ -72,10 +72,14 @@ class _ExpandableListState extends State<ExpansionList> {
         ),
       ],
       onExpansionChanged: (b) {
-        if (b && widget.onExpanded != null) {
-          widget.onExpanded(i);
-        } else if (!b && widget.onCollapsed != null) {
-          widget.onCollapsed(i);
+        if (b) {
+          if (widget.onExpanded != null) {
+            widget.onExpanded(i);
+          } else {}
+        } else if (!b) {
+          if (widget.onCollapsed != null) {
+            widget.onCollapsed(i);
+          }
         }
       },
     );
@@ -87,15 +91,11 @@ class _ExpandableListState extends State<ExpansionList> {
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         if (snapshot.hasData) {
           var titles = snapshot.data;
-          var length = titles.length > 0 ? titles.length * 2 - 1 : 0;
-          print('Length of the list is ' + length.toString());
           return ListView.builder(
             padding: EdgeInsets.all(18.0),
-            itemCount: length,
+            itemCount: titles.length,
             itemBuilder: (context, i) {
-              if (i.isOdd) return Divider();
-              final index = i ~/ 2;
-              return _buildTile(titles[index], index);
+              return _buildTile(titles[i], i);
             },
           );
         } else if (snapshot.hasError) {
