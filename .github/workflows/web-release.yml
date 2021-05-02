@@ -3,11 +3,11 @@ on:
     tags:
       - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
-name: Netlify Release
+name: Web Release
 
 jobs:
   build_release:
-    name: Build on Netlify
+    name: Push to dist branch
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -34,12 +34,11 @@ jobs:
         run: flutter analyze .
       - name: Run widget tests
         run: flutter test
-      - name: Build web
-        run: flutter build web
-      - name: Publish on Netlify
-        uses: netlify/actions/cli@master
-        with:
-          args: deploy --prod
-        env:
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      - name: Push to dist branch
+        run: |
+          git config user.name 'CI'
+          git config user.email 'ci@users.noreply.github.com'
+          git checkout --orphan dist
+          git add .
+          git commit -m "release ${{ github.ref }}"
+          git push --force origin dist
