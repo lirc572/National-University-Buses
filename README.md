@@ -2,6 +2,7 @@
 
 [![Tests](https://github.com/lirc572/National-University-Buses/workflows/Tests/badge.svg)](https://github.com/lirc572/National-University-Buses/actions/workflows/tests.yml)
 [![Android Release](https://github.com/lirc572/National-University-Buses/workflows/Android%20Release/badge.svg)](https://github.com/lirc572/National-University-Buses/actions/workflows/android-release.yml)
+[![Netlify Release](https://github.com/lirc572/National-University-Buses/workflows/Netlify%20Release/badge.svg)](https://github.com/lirc572/National-University-Buses/actions/workflows/netlify-release.yml)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/f63120d9-37b8-4c54-9841-a85fae3614dd/deploy-status)](https://app.netlify.com/sites/nubuses/deploys)
 
 An app that displays NUS bus information.
