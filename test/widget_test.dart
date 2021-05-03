@@ -7,17 +7,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:national_university_buses/main.dart';
+import 'package:national_university_buses/views/buses_view.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    Get.put(Controller());
-
     // Build our app and trigger a frame.
     await tester.pumpWidget(
       GetMaterialApp(
         title: 'National University Buses',
-        home: Other(),
+        home: BusesView(),
       ),
     );
 
