@@ -20,7 +20,7 @@ class ExpansionList extends StatefulWidget {
 
 class _ExpandableListState extends State<ExpansionList> {
   Widget _buildTile(Widget title, int i) {
-    return new ExpansionTile(
+    return ExpansionTile(
       title: title,
       children: <Widget>[
         FutureBuilder(
@@ -28,7 +28,7 @@ class _ExpandableListState extends State<ExpansionList> {
           builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
             if (snapshot.hasData) {
               var subList = snapshot.data;
-              return new Column(
+              return Column(
                 children: subList,
               );
             } else if (snapshot.hasError) {

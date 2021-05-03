@@ -50,16 +50,16 @@ class _BusStopsViewState extends State<BusStopsView> {
         var busStops = await fetchBusStops();
         _updateBusStops(busStops);
         return busStops
-            .map((busStop) => new Text(busStop['caption'].toString()))
+            .map((busStop) => Text(busStop['caption'].toString()))
             .toList();
       },
       buildSubList: (i) async {
         var busServices = await fetchBusServices(_busStops[i]['name']);
         return busServices
-            .map((busRoute) => new ListTile(
+            .map((busRoute) => ListTile(
                   title: Text(busRoute['name'].toString()),
-                  leading: new Icon(Icons.directions_bus_rounded),
-                  trailing: new Text(_formatArrivalTimes(
+                  leading: Icon(Icons.directions_bus_rounded),
+                  trailing: Text(_formatArrivalTimes(
                       busRoute['arrivalTime'].toString(),
                       busRoute['nextArrivalTime'].toString())),
                 ))
