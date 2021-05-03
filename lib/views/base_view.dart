@@ -52,7 +52,7 @@ class BaseView extends StatelessWidget {
               _navBarItems(
                 label: 'Bus Stops',
                 icon: ImageIcon(
-                  AssetImage("images/bus_stop.png"),
+                  AssetImage("assets/images/bus_stop.png"),
                 ),
               ),
               _navBarItems(
