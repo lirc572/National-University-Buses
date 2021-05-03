@@ -75,7 +75,9 @@ class _ExpandableListState extends State<ExpansionList> {
         if (b) {
           if (widget.onExpanded != null) {
             widget.onExpanded(i);
-          } else {}
+          } else {
+            setState(() {});
+          }
         } else if (!b) {
           if (widget.onCollapsed != null) {
             widget.onCollapsed(i);
