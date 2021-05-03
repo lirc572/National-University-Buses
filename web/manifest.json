@@ -1,6 +1,6 @@
 {
     "name": "National University Buses",
-    "short_name": "nubuses",
+    "short_name": "NUBuses",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
