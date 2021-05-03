@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:another_flushbar/flushbar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'widgets/bus_stop_list.dart';
@@ -31,7 +30,7 @@ class Home extends StatelessWidget {
     final Controller c = Get.put(Controller());
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (kIsWeb) {
+      if (GetPlatform.isWeb) {
         Flushbar(
           message: "Press here to try our Android app!",
           icon: Icon(
