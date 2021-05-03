@@ -1,42 +1,70 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:another_flushbar/flushbar.dart';
-import '../widgets/bus_stop_list.dart';
-import '../util/utils.dart';
-import '../controllers/controller.dart';
-import 'buses_view.dart';
+import '../widgets/expansion_list.dart';
+import '../util/api.dart';
 
-class BusStopsView extends StatelessWidget {
+class BusStopsView extends StatefulWidget {
   @override
-  Widget build(context) {
-    // ignore: unused_local_variable
-    final Controller c = Get.put(Controller());
+  _BusStopsViewState createState() => _BusStopsViewState();
+}
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (GetPlatform.isWeb) {
-        Flushbar(
-          message: "Press here to try our Android app!",
-          icon: Icon(
-            Icons.info_outline,
-            size: 28.0,
-            color: Colors.blue[300],
-          ),
-          duration: Duration(seconds: 5),
-          leftBarIndicatorColor: Colors.blue[300],
-          onTap: (_) => launchAndroidAppUrl(),
-        ).show(context);
+class _BusStopsViewState extends State<BusStopsView> {
+  List _busStops = [];
+
+  void _updateBusStops(List newBusStops) {
+    _busStops = newBusStops;
+  }
+
+  String _formatArrivalTimes(String time1, String time2) {
+    if (time1.length > 2) {
+      time1 = '-';
+    } else {
+      time1 = time1.length == 1 ? ' ' + time1 : time1;
+    }
+    if (time1 != ' -') {
+      time1 = time1 + 'min';
+    }
+    if (time2.length > 2) {
+      time2 = '-';
+    } else {
+      time2 = time2.length == 1 ? ' ' + time2 : time2;
+    }
+    if (time2 != ' -') {
+      time2 = time2 + 'min';
+    }
+    if (time1 == ' -') {
+      if (time2 == ' -') {
+        return 'not available';
       }
-    });
+      return time2;
+    }
+    if (time2 == ' -') {
+      return time1;
+    }
+    return time1 + ', ' + time2;
+  }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('National University Buses'),
-      ),
-      body: BusStopList(),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.all_inclusive),
-        onPressed: () => Get.to(BusesView()),
-      ),
+  @override
+  Widget build(BuildContext context) {
+    return ExpansionList(
+      buildTitles: () async {
+        var busStops = await fetchBusStops();
+        _updateBusStops(busStops);
+        return busStops
+            .map((busStop) => new Text(busStop['caption'].toString()))
+            .toList();
+      },
+      buildSubList: (i) async {
+        var busServices = await fetchBusServices(_busStops[i]['name']);
+        return busServices
+            .map((busRoute) => new ListTile(
+                  title: Text(busRoute['name'].toString()),
+                  leading: new Icon(Icons.directions_bus_rounded),
+                  trailing: new Text(_formatArrivalTimes(
+                      busRoute['arrivalTime'].toString(),
+                      busRoute['nextArrivalTime'].toString())),
+                ))
+            .toList();
+      },
     );
   }
 }
