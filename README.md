@@ -6,13 +6,19 @@
 
 An app that displays NUS bus information.
 
-## Develop
+## Development
+
+### Getting Started
 
 1. Create a `dotenv` file with the encoded token (`TOKEN_ENCODED=***`)
 
 > `dotenv` is used because a file named `.env` can't be served by most static site hosting platforms. Currently there is no good way to read environment variables in Flutter Web. If you have any good idea, please propose in [Issues](https://github.com/lirc572/National-University-Buses/issues)!
 
 2. Run `flutter run`
+
+### Commit Messages
+
+We follow [pvdlg/conventional-changelog-metahub](https://github.com/pvdlg/conventional-changelog-metahub#commit-types) for Git commit types.
 
 ## Change App Icon
 
