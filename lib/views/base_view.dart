@@ -10,6 +10,9 @@ class BaseView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      // skip the flashbar for android app promotion
+      return;
+      // ignore: dead_code
       if (GetPlatform.isWeb) {
         Flushbar(
           message: "Press here to try our Android app!",
