@@ -41,9 +41,7 @@ class _BusesViewState extends State<BusesView> {
                       busPickupPoint['lng'],
                     ),
                     child: ClickableItem(
-                      child: Text(
-                        '( ${busPickupPoint['lat']}, ${busPickupPoint['lng']} )',
-                      ),
+                      child: Icon(Icons.map_outlined),
                     ),
                   ),
                 ))
