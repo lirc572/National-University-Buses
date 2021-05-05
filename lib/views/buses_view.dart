@@ -27,21 +27,22 @@ class _BusesViewState extends State<BusesView> {
             .toList();
       },
       buildSubList: (i) async {
-        var busServices = await fetchBusPickupPoints(_busRoutes[i]['Route']);
-        return busServices
-            .map((busRoute) => ListTile(
-                  title: Text(busRoute['pickupname'].toString()),
+        var busPickupPoints =
+            await fetchBusPickupPoints(_busRoutes[i]['Route']);
+        return busPickupPoints
+            .map((busPickupPoint) => ListTile(
+                  title: Text(busPickupPoint['pickupname'].toString()),
                   leading: ImageIcon(
                     AssetImage("assets/images/bus_stop.png"),
                   ),
                   trailing: GestureDetector(
                     onTap: () => launchGoogleMaps(
-                      busRoute['lat'],
-                      busRoute['lng'],
+                      busPickupPoint['lat'],
+                      busPickupPoint['lng'],
                     ),
                     child: ClickableItem(
                       child: Text(
-                        '( ${busRoute['lat']}, ${busRoute['lng']} )',
+                        '( ${busPickupPoint['lat']}, ${busPickupPoint['lng']} )',
                       ),
                     ),
                   ),
