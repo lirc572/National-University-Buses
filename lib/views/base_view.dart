@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:another_flushbar/flushbar.dart';
-import '../util/utils.dart';
+import '../util/utils.dart' show launchAndroidAppUrl;
 import '../controllers/base_controller.dart';
-import 'busstops_view.dart';
-import 'buses_view.dart';
+import 'busstops_view.dart' show BusStopsView;
+import 'buses_view.dart' show BusesView;
 
 class BaseView extends StatelessWidget {
   @override

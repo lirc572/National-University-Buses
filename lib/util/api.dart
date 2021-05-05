@@ -41,3 +41,33 @@ Future<List> fetchBusServices(String busStopName) async {
     return [];
   }
 }
+
+Future<List> fetchBusRoutes() async {
+  var uri = Uri.https(_baseUrl, 'ServiceDescription');
+  try {
+    var response = await http.get(uri, headers: _headers);
+    var busRoutes = jsonDecode(response.body)['ServiceDescriptionResult']
+        ['ServiceDescription'];
+    return busRoutes;
+  } on SocketException catch (_) {
+    return [];
+  }
+}
+
+Future<List> fetchBusPickupPoints(String busRoute) async {
+  var uri = Uri.https(
+    _baseUrl,
+    'PickupPoint',
+    {
+      'route_code': busRoute,
+    },
+  );
+  try {
+    var response = await http.get(uri, headers: _headers);
+    var busPickupPoints =
+        jsonDecode(response.body)['PickupPointResult']['pickuppoint'];
+    return busPickupPoints;
+  } on SocketException catch (_) {
+    return [];
+  }
+}
