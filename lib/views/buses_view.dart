@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/expansion_list.dart';
-import '../util/api.dart';
+import '../util/api.dart' show ApiProvider;
 import '../util/utils.dart' show launchGoogleMaps;
 import '../widgets/clickable_item.dart';
 
@@ -20,7 +20,7 @@ class _BusesViewState extends State<BusesView> {
   Widget build(BuildContext context) {
     return ExpansionList(
       buildTitles: () async {
-        var busRoutes = await fetchBusRoutes();
+        var busRoutes = await ApiProvider.fetchBusRoutes();
         _updateBusRoutes(busRoutes);
         return busRoutes
             .map((busRoute) => Text(busRoute['Route'].toString()))
@@ -28,7 +28,7 @@ class _BusesViewState extends State<BusesView> {
       },
       buildSubList: (i) async {
         var busPickupPoints =
-            await fetchBusPickupPoints(_busRoutes[i]['Route']);
+            await ApiProvider.fetchBusPickupPoints(_busRoutes[i]['Route']);
         return busPickupPoints
             .map((busPickupPoint) => ListTile(
                   title: Text(busPickupPoint['pickupname'].toString()),

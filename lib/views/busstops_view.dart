@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/expansion_list.dart';
-import '../util/api.dart';
+import '../util/api.dart' show ApiProvider;
 
 class BusStopsView extends StatefulWidget {
   @override
@@ -51,14 +51,15 @@ class _BusStopsViewState extends State<BusStopsView> {
   Widget build(BuildContext context) {
     return ExpansionList(
       buildTitles: () async {
-        var busStops = await fetchBusStops();
+        var busStops = await ApiProvider.fetchBusStops();
         _updateBusStops(busStops);
         return busStops
             .map((busStop) => Text(busStop['caption'].toString()))
             .toList();
       },
       buildSubList: (i) async {
-        var busServices = await fetchBusServices(_busStops[i]['name']);
+        var busServices =
+            await ApiProvider.fetchBusServices(_busStops[i]['name']);
         return busServices
             .map((busRoute) => ListTile(
                   title: Text(busRoute['name'].toString()),
