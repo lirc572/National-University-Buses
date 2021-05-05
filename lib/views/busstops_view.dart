@@ -15,32 +15,36 @@ class _BusStopsViewState extends State<BusStopsView> {
   }
 
   String _formatArrivalTimes(String time1, String time2) {
-    if (time1.length > 2) {
-      time1 = '-';
-    } else {
-      time1 = time1.length == 1 ? ' ' + time1 : time1;
+    int time1Int, time2Int;
+
+    try {
+      time1Int = int.parse(time1);
+    } on FormatException {
+      time1Int = -1;
     }
-    if (time1 != ' -') {
-      time1 = time1 + 'min';
+    if (time1Int > 99) {
+      time1Int = -1;
     }
-    if (time2.length > 2) {
-      time2 = '-';
-    } else {
-      time2 = time2.length == 1 ? ' ' + time2 : time2;
+
+    try {
+      time2Int = int.parse(time2);
+    } on FormatException {
+      time2Int = -1;
     }
-    if (time2 != ' -') {
-      time2 = time2 + 'min';
+    if (time2Int > 99) {
+      time2Int = -1;
     }
-    if (time1 == ' -') {
-      if (time2 == ' -') {
-        return 'not available';
-      }
-      return time2;
+
+    if (time1Int < 0 && time2Int < 0) {
+      return 'not available';
     }
-    if (time2 == ' -') {
-      return time1;
+    if (time1Int < 0) {
+      return '$time2Int min';
     }
-    return time1 + ', ' + time2;
+    if (time2Int < 0) {
+      return '$time1Int min';
+    }
+    return '$time1Int min, $time2Int min';
   }
 
   @override
