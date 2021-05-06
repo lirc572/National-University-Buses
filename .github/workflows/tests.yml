@@ -31,3 +31,7 @@ jobs:
         run: flutter analyze .
       - name: Run tests
         run: flutter test
+      - name: Codecov
+        run: |
+          flutter pub run codecov --report-on=lib/ -v
+          bash <(curl -s https://codecov.io/bash)

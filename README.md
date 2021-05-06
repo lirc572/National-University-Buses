@@ -1,5 +1,6 @@
 # National University Buses
 
+[![codecov](https://codecov.io/gh/lirc572/National-University-Buses/branch/master/graph/badge.svg?token=H0WRGG4EGG)](https://codecov.io/gh/lirc572/National-University-Buses)
 [![Tests](https://github.com/lirc572/National-University-Buses/workflows/Tests/badge.svg)](https://github.com/lirc572/National-University-Buses/actions/workflows/tests.yml)
 [![Android Release](https://github.com/lirc572/National-University-Buses/workflows/Android%20Release/badge.svg)](https://github.com/lirc572/National-University-Buses/actions/workflows/android-release.yml)
 [![Web Release](https://github.com/lirc572/National-University-Buses/workflows/Web%20Release/badge.svg)](https://github.com/lirc572/National-University-Buses/actions/workflows/web-release.yml)
