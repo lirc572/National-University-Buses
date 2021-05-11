@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:national_university_buses/controllers/busstops_controller.dart';
 import '../widgets/expansion_list.dart';
 import '../util/api.dart' show ApiProvider;
 
@@ -49,12 +51,39 @@ class _BusStopsViewState extends State<BusStopsView> {
 
   @override
   Widget build(BuildContext context) {
+    final BusstopsController c = Get.put(BusstopsController());
     return ExpansionList(
       buildTitles: () async {
         var busStops = await ApiProvider.fetchBusStops();
         _updateBusStops(busStops);
         return busStops
-            .map((busStop) => Text(busStop['caption'].toString()))
+            .map(
+              (busStop) => ListTile(
+                title: Text(
+                  busStop['caption'].toString(),
+                ),
+                leading: GestureDetector(
+                  child: Icon(
+                    c.isLiked(busStop['caption'].toString())
+                        ? Icons.favorite
+                        : Icons.favorite_border,
+                    color: c.isLiked(busStop['caption'].toString())
+                        ? Colors.red
+                        : null,
+                  ),
+                  onTap: () {
+                    final busStopName = busStop['caption'].toString();
+                    setState(() {
+                      if (c.isLiked(busStopName)) {
+                        c.unlikeItem(busStopName);
+                      } else {
+                        c.likeItem(busStopName);
+                      }
+                    });
+                  },
+                ),
+              ),
+            )
             .toList();
       },
       buildSubList: (i) async {
