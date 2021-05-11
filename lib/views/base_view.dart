@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:another_flushbar/flushbar.dart';
+import 'package:national_university_buses/views/user_view.dart';
 import '../util/utils.dart' show launchAndroidAppUrl;
 import '../controllers/base_controller.dart';
 import 'busstops_view.dart' show BusStopsView;
@@ -41,12 +42,13 @@ class BaseView extends StatelessWidget {
               children: [
                 BusStopsView(),
                 BusesView(),
+                UserView(),
               ],
             ),
           ),
           bottomNavigationBar: BottomNavigationBar(
             unselectedItemColor: Colors.black,
-            selectedItemColor: Colors.redAccent,
+            selectedItemColor: Colors.green[500],
             showSelectedLabels: false,
             showUnselectedLabels: false,
             currentIndex: controller.tabIndex,
@@ -61,6 +63,10 @@ class BaseView extends StatelessWidget {
               _navBarItems(
                 label: 'Buses',
                 icon: Icon(Icons.directions_bus_rounded),
+              ),
+              _navBarItems(
+                label: 'User',
+                icon: Icon(Icons.person_rounded),
               ),
             ],
           ),
