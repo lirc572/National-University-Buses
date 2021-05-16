@@ -1,6 +1,14 @@
 import 'package:get/get.dart';
 
 class BusesController extends GetxController {
-  var count = 0.obs;
-  increment() => count++;
+  List<String> liked = [];
+  bool isLiked(String busRouteName) {
+    return liked.contains(busRouteName);
+  }
+  void likeItem(String busRouteName) {
+    liked.add(busRouteName);
+  }
+  void unlikeItem(String busRouteName) {
+    liked.remove(busRouteName);
+  }
 }

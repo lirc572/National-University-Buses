@@ -57,11 +57,7 @@ class _BusStopsViewState extends State<BusStopsView> {
         var busStops = await ApiProvider.fetchBusStops();
         var likedBusStops = c.liked;
         var busStopsReordered = [];
-        // for (var busStop in busStops) {
-        //   if (likedBusStops.contains(busStop['caption'].toString())) {
-        //     busStopsReordered.add(busStop);
-        //   }
-        // }
+        // two loops to order the liked items in the same order of the liked list
         for (var likedBusStop in likedBusStops) {
           for (var busStop in busStops) {
             if (busStop['caption'].toString() == likedBusStop) {
