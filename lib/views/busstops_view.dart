@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:national_university_buses/controllers/busstops_controller.dart';
+import '../controllers/busstops_controller.dart';
 import '../widgets/expansion_list.dart';
 import '../util/api.dart' show ApiProvider;
 
