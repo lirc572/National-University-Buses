@@ -55,8 +55,20 @@ class _BusStopsViewState extends State<BusStopsView> {
     return ExpansionList(
       buildTitles: () async {
         var busStops = await ApiProvider.fetchBusStops();
-        _updateBusStops(busStops);
-        return busStops
+        var likedBusStops = c.liked;
+        var busStopsReordered = [];
+        for (var busStop in busStops) {
+          if (likedBusStops.contains(busStop['caption'].toString())) {
+            busStopsReordered.add(busStop);
+          }
+        }
+        for (var busStop in busStops) {
+          if (!busStopsReordered.contains(busStop)) {
+            busStopsReordered.add(busStop);
+          }
+        }
+        _updateBusStops(busStopsReordered);
+        return busStopsReordered
             .map(
               (busStop) => ListTile(
                 title: Text(
