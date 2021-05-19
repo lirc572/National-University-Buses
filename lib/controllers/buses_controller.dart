@@ -5,9 +5,11 @@ class BusesController extends GetxController {
   bool isLiked(String busRouteName) {
     return liked.contains(busRouteName);
   }
+
   void likeItem(String busRouteName) {
     liked.add(busRouteName);
   }
+
   void unlikeItem(String busRouteName) {
     liked.remove(busRouteName);
   }
