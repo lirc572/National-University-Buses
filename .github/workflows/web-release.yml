@@ -1,0 +1,44 @@
+on:
+  push:
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+name: Web Release
+
+jobs:
+  build_release:
+    name: Push to dist branch
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Create .env
+        run: |
+          echo "TOKEN_ENCODED=$TOKEN_ENCODED" > dotenv
+        shell: bash
+        env:
+          TOKEN_ENCODED: ${{ secrets.TOKEN_ENCODED }}
+      - name: Setup Java11
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+          architecture: x64
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'stable'
+      - name: Get flutter dependencies
+        run: flutter pub get
+      - name: Check format of dart code
+        run: flutter format --set-exit-if-changed .
+      - name: Statically analyse dart code
+        run: flutter analyze .
+      - name: Run tests
+        run: flutter test
+      - name: Push to dist branch
+        run: |
+          git config user.name 'CI'
+          git config user.email 'ci@users.noreply.github.com'
+          git checkout --orphan dist
+          git add .
+          git commit -m "release ${{ github.ref }}"
+          git push --force origin dist

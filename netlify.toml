@@ -1,0 +1,3 @@
+[build]
+  command = "bash ./build-web.sh"
+  publish = "build/web"
